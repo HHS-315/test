@@ -7,30 +7,29 @@
 <meta name="description" content="세상은 조용히, 음악은 선명하게. 노이즈 캔슬링 무선 이어폰 소노 버즈.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#000000">
-<link rel="preload" as="image" href="assets/buds.svg">
+<link rel="preload" as="image" href="assets/earbuds-pair.webp" fetchpriority="high">
 <style>
-/* 색·글꼴·간격 기준: DESIGN.md (Apple design analysis) */
+/* 색·글꼴·간격 기준: DESIGN.md, 구성: reference/gen/*.png */
 :root {
   --primary: #0066cc;
   --primary-focus: #0071e3;
   --btn-bg: #0066cc;
   --btn-hover: #0071e3;
-  --primary-on-dark: #2997ff;
   --ink: #1d1d1f;
   --ink-muted: #6e6e73;
   --hairline: #e0e0e0;
   --canvas: #ffffff;
   --parchment: #f5f5f7;
-  --tile: #272729;
-  --tile-2: #2a2a2c;
-  --tile-3: #252527;
-  --on-dark: #ffffff;
-  --on-dark-muted: #cccccc;
-  --nav: #000000;
-  --subnav: rgba(245, 245, 247, 0.8);
+  --subnav: rgba(255, 255, 255, 0.72);
+  --dark-band: #161617;
+  --tile: #232325;
+  --tile-2: #262628;
+  --on-dark: #f5f5f7;
+  --on-dark-muted: #a1a1a6;
+  --floor-shadow: rgba(0, 0, 0, 0.22);
   --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   --font-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
-  --gutter: max(calc(24px + env(safe-area-inset-left)), calc((100% - 1040px) / 2));
+  --gutter: max(calc(24px + env(safe-area-inset-left)), calc((100% - 1000px) / 2));
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (prefers-color-scheme: dark) {
@@ -44,16 +43,17 @@
     --hairline: #3a3a3c;
     --canvas: #101012;
     --parchment: #161617;
-    --tile: #1d1d1f;
-    --tile-2: #232325;
-    --tile-3: #1a1a1c;
-    --subnav: rgba(22, 22, 23, 0.8);
+    --subnav: rgba(29, 29, 31, 0.72);
+    --dark-band: #0b0b0c;
+    --tile: #1c1c1e;
+    --tile-2: #1f1f21;
+    --floor-shadow: rgba(0, 0, 0, 0.6);
   }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 52px; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-tap-highlight-color: transparent; }
 a, button { touch-action: manipulation; }
 body {
   font: 400 17px/1.47 var(--font-text);
@@ -65,14 +65,9 @@ body {
   overflow-wrap: anywhere;
 }
 img { display: block; max-width: 100%; height: auto; }
-h1, h2, h3, .hero__lead, .closing__lead { text-wrap: balance; }
-a { color: inherit; }
+h1, h2, h3, .lead { text-wrap: balance; }
 :focus-visible { outline: 2px solid var(--primary-focus); outline-offset: 3px; }
 
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
 .skip {
   position: absolute; left: 16px; top: -48px; z-index: 30;
   padding: 8px 15px; border-radius: 8px;
@@ -80,107 +75,128 @@ a { color: inherit; }
 }
 .skip:focus { top: 8px; }
 
-/* 버튼: 알약 모양 하나만, 누르면 0.95 */
+/* 버튼: 알약 모양 하나, 누르면 0.95 */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  min-height: 44px; padding: 11px 22px;
+  min-height: 44px; min-width: 112px; padding: 11px 24px;
   border: 1px solid var(--btn-bg); border-radius: 999px;
   background: var(--btn-bg); color: #fff;
-  font: inherit; text-decoration: none; white-space: nowrap; cursor: pointer;
-  transition: transform 0.2s var(--ease), background-color 0.2s var(--ease);
+  font: inherit; font-size: 15px; letter-spacing: -0.224px;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: transform 0.2s var(--ease), background-color 0.2s var(--ease), border-color 0.2s var(--ease);
 }
 .btn:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
 .btn:active { transform: scale(0.95); }
 .btn--ghost { background: transparent; border-color: var(--primary); color: var(--primary); }
-.btn--ghost:hover { background: transparent; text-decoration: underline; }
-.btn--lg { padding: 14px 28px; font-size: 18px; font-weight: 300; letter-spacing: 0; }
+.btn--ghost:hover { background: transparent; border-color: var(--primary); text-decoration: underline; }
+.btn--wide { min-width: 270px; min-height: 52px; font-size: 17px; }
+.btn--block { width: 100%; }
 
-/* 글로벌 내비 + 서브 내비 */
+/* 글로벌 내비 + 떠 있는 서브 내비 */
 .global-nav {
-  height: 44px; background: var(--nav); color: #fff;
-  display: flex; align-items: center; padding: 0 var(--gutter);
+  height: 32px; background: #000; color: #fff;
+  display: flex; align-items: center; justify-content: center;
   font: 600 14px/1 var(--font-display); letter-spacing: 0;
 }
 .sub-nav {
   position: sticky; top: 0; z-index: 20;
-  height: 52px; padding: 0 var(--gutter);
+  padding: 12px var(--gutter) 0;
+}
+.sub-nav__bar {
+  height: 52px; padding: 0 12px 0 20px; border-radius: 18px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   background: var(--subnav);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
-.sub-nav__name { font: 600 21px/1.19 var(--font-display); letter-spacing: 0.231px; text-decoration: none; }
-.sub-nav__links { display: flex; align-items: center; gap: 24px; list-style: none; padding: 0; font-size: 14px; letter-spacing: -0.224px; }
-.sub-nav__links a:not(.btn) { text-decoration: none; opacity: 0.8; }
-.sub-nav__links a:not(.btn):hover { opacity: 1; }
-.sub-nav .btn { min-height: 28px; padding: 4px 14px; font-size: 12px; letter-spacing: -0.12px; }
+.sub-nav__name { font: 600 17px/1 var(--font-display); color: inherit; text-decoration: none; }
+.sub-nav__links { display: flex; align-items: center; gap: 28px; list-style: none; padding: 0; font-size: 14px; letter-spacing: -0.224px; }
+.sub-nav__links a:not(.btn) { color: inherit; text-decoration: none; opacity: 0.8; }
+.sub-nav__links a:not(.btn):hover { opacity: 1; text-decoration: underline; }
+.sub-nav .btn { min-height: 34px; min-width: 0; padding: 6px 18px; font-size: 13px; }
 
 /* 히어로 */
 .hero {
   background: var(--parchment);
-  padding: 72px 24px 56px;
+  margin-top: -64px; padding: 112px 24px 72px;
   text-align: center;
   display: flex; flex-direction: column; align-items: center;
-  overflow: hidden;
 }
-.hero__eyebrow { font: 600 21px/1.19 var(--font-display); color: var(--ink-muted); letter-spacing: 0.231px; }
-.hero h1 { font: 600 80px/1.05 var(--font-display); letter-spacing: -1.6px; margin-top: 8px; }
-.hero__lead { font: 400 28px/1.14 var(--font-display); letter-spacing: 0.196px; margin-top: 16px; }
-.hero__cta { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 32px; }
-.hero__media { margin-top: 40px; width: min(640px, 100%); }
+.hero__eyebrow { font: 400 19px/1.2 var(--font-display); color: var(--ink-muted); }
+.hero h1 { font: 700 88px/1.05 var(--font-display); letter-spacing: -2px; margin-top: 10px; }
+.hero .lead { font: 400 28px/1.2 var(--font-display); letter-spacing: -0.2px; margin-top: 14px; }
+.hero__cta { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; }
+/* 제품이 바닥에 놓인 느낌: 시스템의 유일한 그림자 */
+.stage { position: relative; margin-top: 40px; width: min(340px, 72%); }
+.stage::after {
+  content: ""; display: block; width: 70%; height: 22px; margin: 28px auto 0;
+  border-radius: 50%; background: var(--floor-shadow); filter: blur(18px);
+}
+.closing .stage { margin: 44px auto 0; width: min(230px, 55%); }
+.closing .stage::after { margin-top: 4px; width: 80%; }
 
-/* 기능: 한 번만 등장하는 어두운 띠, 비대칭 3칸 */
-.features { background: var(--tile); color: var(--on-dark); padding: 96px var(--gutter); }
-.features h2 { font: 600 56px/1.07 var(--font-display); letter-spacing: -0.28px; }
-.features__intro { font-size: 21px; line-height: 1.38; color: var(--on-dark-muted); margin-top: 20px; max-width: 34em; }
+/* 기능: 어두운 띠, 큰 칸 1 + 작은 칸 2 */
+.features { background: var(--dark-band); color: var(--on-dark); padding: 96px var(--gutter); }
+.features h2 { font: 700 48px/1.15 var(--font-display); letter-spacing: -0.6px; }
+.features__intro { color: var(--on-dark-muted); margin-top: 14px; }
 .bento {
-  margin-top: 64px;
-  display: grid; gap: 20px;
-  grid-template-columns: 1.35fr 1fr;
-  grid-template-rows: auto auto;
+  margin-top: 48px;
+  display: grid; gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
-.cell { background: var(--tile-2); padding: 40px; display: flex; flex-direction: column; }
-.cell--lead { grid-row: span 2; background: var(--tile-3); }
-.cell__media { margin: auto auto 0; padding-top: 32px; width: min(360px, 100%); }
-.stat { font: 600 64px/1 var(--font-display); letter-spacing: -1px; font-variant-numeric: tabular-nums; }
-.stat small { font-size: 28px; margin-left: 4px; letter-spacing: 0; }
-.cell--lead .stat { font-size: 96px; }
-.cell h3 { font: 600 21px/1.19 var(--font-display); letter-spacing: 0.231px; margin-top: 20px; }
-.cell p { color: var(--on-dark-muted); margin-top: 10px; }
+.cell { position: relative; overflow: hidden; background: var(--tile-2); padding: 36px 32px; min-height: 280px; }
+.cell--lead { grid-row: span 2; background: var(--tile); padding-bottom: 0; display: flex; flex-direction: column; min-height: 580px; }
+.stat { font: 700 64px/1 var(--font-display); letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+.cell--lead .stat { font-size: 80px; }
+.cell h3 { font: 700 24px/1.25 var(--font-display); letter-spacing: -0.3px; margin-top: 16px; }
+.cell p:not(.stat) { color: var(--on-dark-muted); font-size: 15px; letter-spacing: -0.224px; margin-top: 12px; max-width: 24em; }
+.cell__media { margin: auto -32px 0 auto; width: 92%; max-width: 440px; padding-top: 24px; }
 
 /* 가격 */
 .pricing { background: var(--canvas); padding: 96px var(--gutter); }
-.pricing h2 { font: 600 56px/1.07 var(--font-display); letter-spacing: -0.28px; text-align: center; }
-.pricing__sub { text-align: center; font-size: 21px; line-height: 1.38; color: var(--ink-muted); margin-top: 12px; }
-.plans { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.pricing h2 { font: 700 56px/1.1 var(--font-display); letter-spacing: -0.8px; text-align: center; }
+.pricing .lead { text-align: center; font-size: 21px; line-height: 1.38; color: var(--ink-muted); margin-top: 12px; }
+.plans { margin: 48px auto 0; max-width: 760px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .plan {
+  position: relative;
   border: 1px solid var(--hairline); border-radius: 18px;
-  padding: 40px; display: flex; flex-direction: column;
+  padding: 32px 32px 28px; text-align: center;
+  display: flex; flex-direction: column;
 }
-.plan--pick { border: 2px solid var(--primary-focus); padding: 39px; }
-.plan__tag { font: 600 14px/1.29 var(--font-text); letter-spacing: -0.224px; color: var(--primary); min-height: 18px; }
-.plan h3 { font: 600 34px/1.2 var(--font-display); letter-spacing: -0.374px; margin-top: 8px; }
-.plan__price { font: 600 28px/1.14 var(--font-display); margin-top: 20px; font-variant-numeric: tabular-nums; }
-.plan__monthly { font-size: 14px; letter-spacing: -0.224px; color: var(--ink-muted); margin-top: 6px; }
-.plan ul { list-style: none; padding: 24px 0 0; margin: 28px 0 32px; border-top: 1px solid var(--hairline); display: grid; gap: 14px; }
-.plan li.is-off { color: var(--ink-muted); text-decoration: line-through; }
-.plan .btn { align-self: flex-start; margin-top: auto; }
+.plan--pick { border: 2px solid var(--primary-focus); padding: 31px 31px 27px; }
+.plan__badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--btn-bg); color: #fff;
+  font: 600 12px/1.4 var(--font-text); letter-spacing: -0.12px;
+}
+.plan__media { width: 104px; margin: 0 auto 24px; }
+.plan h3 { font: 700 24px/1.25 var(--font-display); letter-spacing: -0.3px; }
+.plan__price { font: 700 34px/1.1 var(--font-display); margin-top: 10px; font-variant-numeric: tabular-nums; }
+.plan__monthly { font-size: 14px; letter-spacing: -0.224px; color: var(--ink-muted); margin-top: 8px; }
+.plan ul {
+  list-style: none; padding: 22px 0 0; margin: 22px 0 36px;
+  border-top: 1px solid var(--hairline);
+  display: grid; gap: 10px; text-align: left; font-size: 15px; letter-spacing: -0.224px;
+}
+.plan .btn { margin-top: auto; }
 
 /* 마무리 */
-.closing { background: var(--parchment); text-align: center; padding: 112px 24px 0; }
-.closing h2 { font: 600 56px/1.07 var(--font-display); letter-spacing: -0.28px; }
-.closing__lead { font: 400 28px/1.14 var(--font-display); letter-spacing: 0.196px; margin-top: 16px; }
-.closing .btn { margin-top: 32px; }
-.closing__fine { margin-top: 20px; font-size: 14px; letter-spacing: -0.224px; color: var(--ink-muted); }
+.closing { background: var(--parchment); text-align: center; padding: 96px 24px 72px; }
+.closing h2 { font: 700 56px/1.1 var(--font-display); letter-spacing: -0.8px; }
+.closing .lead { font: 400 28px/1.2 var(--font-display); color: var(--ink-muted); margin-top: 14px; }
+.closing .btn { margin-top: 30px; }
+.closing__fine { margin-top: 18px; font-size: 14px; letter-spacing: -0.224px; color: var(--ink-muted); }
 
 footer {
   background: var(--parchment); color: var(--ink-muted);
-  padding: 64px var(--gutter) 48px;
-  font-size: 12px; line-height: 1.6; letter-spacing: -0.12px;
+  padding: 0 var(--gutter) 40px;
+  font-size: 12px; line-height: 1.6; letter-spacing: -0.12px; text-align: center;
 }
-footer p + p { margin-top: 12px; }
 footer .rule { border-top: 1px solid var(--hairline); padding-top: 20px; }
+footer p + p { margin-top: 6px; }
 
 /* 움직임: 위계 전달용 등장 효과만, 동작 줄이기 설정 존중 */
 @media (prefers-reduced-motion: no-preference) {
@@ -188,7 +204,7 @@ footer .rule { border-top: 1px solid var(--hairline); padding-top: 20px; }
   .hero > :nth-child(2) { animation-delay: 0.06s; }
   .hero > :nth-child(3) { animation-delay: 0.12s; }
   .hero > :nth-child(4) { animation-delay: 0.18s; }
-  .hero > :nth-child(5) { animation-delay: 0.28s; }
+  .hero > :nth-child(5) { animation-delay: 0.3s; }
   .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
   .js .reveal.is-in { opacity: 1; transform: none; }
   @keyframes rise { from { opacity: 0; transform: translateY(20px); } }
@@ -200,27 +216,31 @@ footer .rule { border-top: 1px solid var(--hairline); padding-top: 20px; }
 
 /* 반응형 */
 @media (max-width: 1068px) {
-  .hero h1 { font-size: 64px; letter-spacing: -1.2px; }
+  .hero h1 { font-size: 72px; letter-spacing: -1.5px; }
 }
 @media (max-width: 833px) {
   .sub-nav__links li:not(:last-child) { display: none; }
-  .bento { grid-template-columns: 1fr; }
-  .cell--lead { grid-row: auto; }
-  .plans { grid-template-columns: 1fr; }
-  .features h2, .pricing h2, .closing h2 { font-size: 40px; line-height: 1.1; }
+  .bento { grid-template-columns: 1fr; grid-template-rows: none; }
+  .cell--lead { grid-row: auto; min-height: 0; }
+  .cell { min-height: 0; }
+  .plans { grid-template-columns: 1fr; max-width: 420px; }
+  .features h2, .pricing h2, .closing h2 { font-size: 40px; }
 }
 @media (max-width: 640px) {
-  .hero { padding-top: 48px; }
-  .hero h1 { font-size: 48px; letter-spacing: -0.8px; }
-  .hero__lead, .closing__lead { font-size: 21px; }
+  .sub-nav { padding-top: 8px; }
+  .hero { padding-top: 96px; padding-bottom: 56px; }
+  .hero h1 { font-size: 52px; letter-spacing: -1px; }
+  .hero .lead, .closing .lead { font-size: 21px; }
   .features, .pricing { padding-top: 64px; padding-bottom: 64px; }
   .features h2, .pricing h2, .closing h2 { font-size: 32px; }
-  .features__intro, .pricing__sub { font-size: 17px; }
-  .cell, .plan { padding: 28px; }
-  .plan--pick { padding: 27px; }
-  .cell--lead .stat { font-size: 72px; }
+  .pricing .lead { font-size: 17px; }
+  .cell { padding: 28px 24px; }
+  .cell--lead { padding-bottom: 0; }
+  .cell__media { margin-right: -24px; }
+  .cell--lead .stat { font-size: 64px; }
   .stat { font-size: 52px; }
   .closing { padding-top: 72px; }
+  .btn--wide { min-width: 0; width: 100%; max-width: 320px; }
 }
 </style>
 </head>
@@ -229,94 +249,98 @@ footer .rule { border-top: 1px solid var(--hairline); padding-top: 20px; }
 
 <div class="global-nav" translate="no">Sono</div>
 <nav class="sub-nav" aria-label="소노 버즈">
-  <a class="sub-nav__name" href="#top">소노 버즈</a>
-  <ul class="sub-nav__links">
-    <li><a href="#features">기능</a></li>
-    <li><a href="#pricing">가격</a></li>
-    <li><a class="btn" href="#pricing">구입하기</a></li>
-  </ul>
+  <div class="sub-nav__bar">
+    <a class="sub-nav__name" href="#top">소노 버즈</a>
+    <ul class="sub-nav__links">
+      <li><a href="#features">기능</a></li>
+      <li><a href="#pricing">가격</a></li>
+      <li><a class="btn" href="#pricing">구입하기</a></li>
+    </ul>
+  </div>
 </nav>
 
 <main id="main">
   <section class="hero" id="top" aria-labelledby="hero-title">
     <p class="hero__eyebrow">새로운</p>
     <h1 id="hero-title">소노 버즈</h1>
-    <p class="hero__lead">세상은 조용히, 음악은 선명하게.</p>
+    <p class="lead">세상은 조용히, 음악은 선명하게.</p>
     <div class="hero__cta">
       <a class="btn" href="#pricing">구입하기</a>
       <a class="btn btn--ghost" href="#features">더 알아보기</a>
     </div>
-    <img class="hero__media" src="assets/buds.svg" width="640" height="400" alt="흰색 소노 버즈 이어폰 한 쌍" fetchpriority="high">
+    <div class="stage"><img src="assets/earbuds-pair.webp" width="1400" height="955" alt="흰색 소노 버즈 이어폰 한 쌍" fetchpriority="high"></div>
   </section>
 
   <!-- 수치는 예시(mock) 값입니다. 실제 제품 사양으로 교체하세요. -->
   <section class="features" id="features" aria-labelledby="features-title">
     <h2 id="features-title" class="reveal">귀에 꼭 맞게,<br>하루 종일 가볍게.</h2>
-    <p class="features__intro reveal">소음은 덜어 내고 소리는 또렷하게. 매일 쓰는 이어폰에 필요한 세 가지를 담았습니다.</p>
+    <p class="features__intro reveal">더 깊이 몰입하는 사운드, 오래 껴도 편안한 착용감.</p>
     <div class="bento">
       <article class="cell cell--lead reveal">
-        <p class="stat">&minus;42<small>dB</small></p>
+        <p class="stat">&minus;42dB</p>
         <h3>액티브 노이즈 캔슬링</h3>
-        <p>주변 소리를 실시간으로 분석해 지하철 소음까지 줄여 줍니다.</p>
-        <img class="cell__media" src="assets/buds.svg" width="640" height="400" alt="" loading="lazy">
+        <p>외부 소음을 효과적으로 차단해 더 깊고 선명한 사운드를 들려줍니다.</p>
+        <img class="cell__media" src="assets/earbud-single.webp" width="1200" height="935" alt="" loading="lazy">
       </article>
       <article class="cell reveal">
-        <p class="stat">36<small>시간</small></p>
+        <p class="stat">36시간</p>
         <h3>케이스 포함 재생 시간</h3>
-        <p>5분만 충전해도 한 시간 더 들을 수 있습니다.</p>
+        <p>한 번 충전으로 더 오래, 출퇴근길부터 잠들기 전까지 끊김 없이 들을 수 있습니다.</p>
       </article>
       <article class="cell reveal">
-        <p class="stat">4.6<small>g</small></p>
+        <p class="stat">4.6g</p>
         <h3>한쪽 무게</h3>
-        <p>세 가지 크기의 이어팁으로 오래 껴도 편안합니다.</p>
+        <p>가벼운 무게 덕분에 하루 종일 껴도 귀가 편안합니다.</p>
       </article>
     </div>
   </section>
 
   <section class="pricing" id="pricing" aria-labelledby="pricing-title">
     <h2 id="pricing-title" class="reveal">나에게 맞는 소노 버즈.</h2>
-    <p class="pricing__sub reveal">두 모델 모두 무료 각인과 무료 배송을 제공합니다.</p>
+    <p class="lead reveal">두 모델 모두 무료 각인과 무료 배송.</p>
     <div class="plans">
       <article class="plan reveal" aria-labelledby="plan-basic">
-        <p class="plan__tag" aria-hidden="true"></p>
+        <img class="plan__media" src="assets/case-open.webp" width="1000" height="1119" alt="" loading="lazy">
         <h3 id="plan-basic">소노 버즈</h3>
         <p class="plan__price">₩199,000</p>
-        <p class="plan__monthly">또는 월 ₩16,583 (12개월 무이자)</p>
+        <p class="plan__monthly">월 ₩16,583 (12개월 무이자)</p>
         <ul>
-          <li>액티브 노이즈 캔슬링</li>
-          <li>케이스 포함 30시간 재생</li>
-          <li>USB-C 충전 케이스</li>
-          <li class="is-off"><span class="visually-hidden">미포함: </span>무선 충전, 분실 위치 찾기</li>
+          <li>선명한 사운드의 다이내믹 드라이버</li>
+          <li>케이스 포함 최대 30시간 재생</li>
+          <li>편안한 인체공학적 착용감</li>
+          <li>IPX4 생활 방수</li>
         </ul>
-        <button class="btn" type="button" aria-label="소노 버즈 구입하기">구입하기</button>
+        <button class="btn btn--block" type="button" aria-label="소노 버즈 구입하기">구입하기</button>
       </article>
       <article class="plan plan--pick reveal" aria-labelledby="plan-pro">
-        <p class="plan__tag">추천</p>
+        <span class="plan__badge">추천</span>
+        <img class="plan__media" src="assets/case-open.webp" width="1000" height="1119" alt="" loading="lazy">
         <h3 id="plan-pro">소노 버즈 프로</h3>
         <p class="plan__price">₩289,000</p>
-        <p class="plan__monthly">또는 월 ₩24,083 (12개월 무이자)</p>
+        <p class="plan__monthly">월 ₩24,083 (12개월 무이자)</p>
         <ul>
-          <li>강화된 노이즈 캔슬링 (&minus;42dB)</li>
-          <li>케이스 포함 36시간 재생</li>
-          <li>무선 충전 케이스</li>
-          <li>분실 위치 찾기, 스피커 내장 케이스</li>
+          <li>하이파이급 공간 오디오</li>
+          <li>액티브 노이즈 캔슬링 (&minus;42dB)</li>
+          <li>케이스 포함 최대 36시간 재생</li>
+          <li>IPX5 생활 방수</li>
         </ul>
-        <button class="btn" type="button" aria-label="소노 버즈 프로 구입하기">구입하기</button>
+        <button class="btn btn--block" type="button" aria-label="소노 버즈 프로 구입하기">구입하기</button>
       </article>
     </div>
   </section>
 
   <section class="closing" aria-labelledby="closing-title">
     <h2 id="closing-title" class="reveal">오늘 주문하면 내일 도착.</h2>
-    <p class="closing__lead reveal">소노 버즈, ₩199,000부터.</p>
-    <a class="btn btn--lg reveal" href="#pricing">구입하기</a>
+    <p class="lead reveal">소노 버즈, ₩199,000부터.</p>
+    <a class="btn btn--wide reveal" href="#pricing">구입하기</a>
     <p class="closing__fine">30일 이내 무료 반품 · 1년 무상 보증</p>
+    <div class="stage"><img src="assets/case-open.webp" width="1000" height="1119" alt="이어폰 두 쪽이 담긴 열린 충전 케이스" loading="lazy"></div>
   </section>
 </main>
 
 <footer>
-  <p class="rule">가격은 부가세 포함 기준입니다. 재생 시간과 소음 감소 수치는 예시이며 사용 환경에 따라 달라질 수 있습니다.</p>
-  <p>Copyright © 2026 Sono. All rights reserved.</p>
+  <p class="rule">가격은 부가세 포함 기준입니다. 노이즈 캔슬링, 재생 시간, 무게 수치는 소노 버즈 프로 기준 예시이며 사용 환경에 따라 달라질 수 있습니다.</p>
+  <p>Copyright © 2026 <span translate="no">Sono</span>. All rights reserved.</p>
 </footer>
 
 <script>
