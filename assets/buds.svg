@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400">
+<!-- TODO: 실제 제품 사진(투명 배경 PNG/WebP, 1280x800)으로 교체 -->
+<defs>
+<linearGradient id="stem" x1="0" x2="1"><stop offset="0" stop-color="#e4e4e8"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#cdcdd2"/></linearGradient>
+<radialGradient id="head" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#fff"/><stop offset=".65" stop-color="#ececef"/><stop offset="1" stop-color="#c9c9cf"/></radialGradient>
+<filter id="shadow" x="-40%" y="-30%" width="180%" height="170%"><feDropShadow dx="3" dy="5" stdDeviation="15" flood-color="#000" flood-opacity=".22"/></filter>
+<g id="bud">
+<rect x="-17" y="20" width="34" height="210" rx="17" fill="url(#stem)"/>
+<circle cx="0" cy="0" r="62" fill="url(#head)"/>
+<ellipse cx="30" cy="10" rx="20" ry="18" fill="#2a2a2c" opacity=".9"/>
+<rect x="-7" y="206" width="14" height="8" rx="4" fill="#b4b4ba"/>
+</g>
+</defs>
+<g filter="url(#shadow)">
+<use href="#bud" transform="translate(220 110) rotate(-16)"/>
+<use href="#bud" transform="translate(420 110) rotate(16) scale(-1 1)"/>
+</g>
+</svg>

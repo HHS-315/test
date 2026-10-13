@@ -1,0 +1,7 @@
+:root{--blue:#0066cc;--blue-dark:#2997ff;--ink:#1d1d1f;--muted:#7a7a7a;--parch:#f5f5f7;--tile:#272729;--tile2:#2a2a2c;--hair:#e0e0e0;
+--display:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Inter",sans-serif;
+--text:"SF Pro Text",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Inter",sans-serif}
+*{box-sizing:border-box;margin:0}
+body{font:400 17px/1.47 var(--text);letter-spacing:-.374px;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+.pill{display:inline-block;padding:11px 22px;border-radius:999px;background:var(--blue);color:#fff;text-decoration:none}
+.ghost{display:inline-block;padding:10px 21px;border-radius:999px;border:1px solid var(--blue);color:var(--blue);text-decoration:none}

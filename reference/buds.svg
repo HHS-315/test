@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360">
+<defs>
+<linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#e9e9ec"/><stop offset=".45" stop-color="#fff"/><stop offset="1" stop-color="#d4d4d9"/></linearGradient>
+<radialGradient id="h" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#fff"/><stop offset=".7" stop-color="#ececef"/><stop offset="1" stop-color="#cfcfd4"/></radialGradient>
+<filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="3" dy="5" stdDeviation="15" flood-color="#000" flood-opacity=".22"/></filter>
+</defs>
+<g filter="url(#s)">
+<g transform="translate(170 40) rotate(-14)">
+<rect x="34" y="70" width="34" height="200" rx="17" fill="url(#g)"/>
+<ellipse cx="60" cy="72" rx="62" ry="58" fill="url(#h)"/>
+<ellipse cx="88" cy="82" rx="22" ry="20" fill="#2a2a2c" opacity=".88"/>
+<rect x="44" y="246" width="14" height="8" rx="4" fill="#b8b8bd"/>
+</g>
+<g transform="translate(390 40) rotate(14) scale(-1 1)">
+<rect x="34" y="70" width="34" height="200" rx="17" fill="url(#g)"/>
+<ellipse cx="60" cy="72" rx="62" ry="58" fill="url(#h)"/>
+<ellipse cx="88" cy="82" rx="22" ry="20" fill="#2a2a2c" opacity=".88"/>
+<rect x="44" y="246" width="14" height="8" rx="4" fill="#b8b8bd"/>
+</g>
+</g>
+</svg>
