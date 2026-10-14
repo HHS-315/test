@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>소노 버즈 | 무선 이어폰</title>
 <meta name="description" content="세상은 조용히, 음악은 선명하게. 노이즈 캔슬링 무선 이어폰 소노 버즈.">
 <meta name="color-scheme" content="light dark">
@@ -30,7 +30,7 @@
   --floor-shadow: rgba(0, 0, 0, 0.2);
   --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   --font-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
-  --gutter: max(calc(24px + env(safe-area-inset-left)), calc((100% - 1040px) / 2));
+  --gutter: max(calc(24px + max(env(safe-area-inset-left), env(safe-area-inset-right))), calc((100% - 1040px) / 2));
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -52,6 +52,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
 html { scroll-padding-top: 72px; -webkit-tap-highlight-color: transparent; }
+@media (pointer: fine) { html { overscroll-behavior: none; } }
 a, button { touch-action: manipulation; }
 body {
   font: 400 17px/1.47 var(--font-text);
@@ -73,9 +74,11 @@ p { text-wrap: pretty; }
   padding: 8px 15px; border-radius: 8px;
   background: var(--ink); color: var(--canvas); text-decoration: none;
 }
-.skip:focus { top: 8px; }
+.skip:focus-visible { top: 8px; }
 
 /* 버튼: 알약 하나, 누르면 살짝 눌림 (자동 움직임 없음) */
+.brand { white-space: nowrap; }
+
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 44px; padding: 11px 22px;
@@ -151,7 +154,7 @@ p { text-wrap: pretty; }
 }
 .plan--pick { border: 2px solid var(--primary-focus); padding: 35px; }
 .plan__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.plan__head img { width: 72px; }
+.plan__head img { width: 72px; margin-left: auto; }
 .plan__tag { color: var(--primary); font-size: 14px; font-weight: 600; }
 .plan h3 { font-size: 24px; line-height: 1.3; margin-top: 24px; }
 .plan__price { font: 600 32px/1.2 var(--font-display); margin-top: 8px; font-variant-numeric: tabular-nums; }
@@ -202,7 +205,7 @@ footer p + p { margin-top: 6px; }
 <a class="skip" href="#main">본문으로 건너뛰기</a>
 
 <nav class="nav" aria-label="소노 버즈">
-  <a class="nav__brand" href="#top">소노 버즈</a>
+  <a class="nav__brand" href="#top" translate="no">소노&nbsp;버즈</a>
   <ul class="nav__links">
     <li><a href="#features">기능</a></li>
     <li><a href="#pricing">가격</a></li>
@@ -214,11 +217,11 @@ footer p + p { margin-top: 6px; }
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div>
       <p class="hero__eyebrow">새로운 무선 이어폰</p>
-      <h1 id="hero-title">소노 버즈</h1>
+      <h1 id="hero-title" translate="no">소노&nbsp;버즈</h1>
       <p class="hero__lead">세상은 조용히, 음악은 선명하게. 하루 종일 껴도 편안한 이어폰입니다.</p>
       <div class="hero__cta">
         <a class="btn" href="#pricing">구입하기</a>
-        <a class="btn btn--ghost" href="#features">더 알아보기</a>
+        <a class="btn btn--ghost" href="#features">기능 살펴보기</a>
       </div>
     </div>
     <div class="stage">
@@ -255,15 +258,14 @@ footer p + p { margin-top: 6px; }
   </section>
 
   <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
-    <h2 class="section__title" id="pricing-title">나에게 맞는 소노 버즈.</h2>
+    <h2 class="section__title" id="pricing-title">취향에 맞는 <span class="brand" translate="no">소노&nbsp;버즈</span>를 고르세요.</h2>
     <p class="section__intro">두 모델 모두 무료 각인과 무료 배송을 제공합니다.</p>
     <div class="plans">
       <article class="plan" aria-labelledby="plan-basic">
         <div class="plan__head">
-          <span class="plan__tag" aria-hidden="true"></span>
           <img src="assets/case-open.webp" width="1000" height="1119" alt="" loading="lazy">
         </div>
-        <h3 id="plan-basic">소노 버즈</h3>
+        <h3 id="plan-basic" translate="no">소노&nbsp;버즈</h3>
         <p class="plan__price">₩199,000</p>
         <p class="plan__monthly">월 ₩16,583 (12개월 무이자)</p>
         <ul>
@@ -279,7 +281,7 @@ footer p + p { margin-top: 6px; }
           <span class="plan__tag">추천</span>
           <img src="assets/case-open.webp" width="1000" height="1119" alt="" loading="lazy">
         </div>
-        <h3 id="plan-pro">소노 버즈 프로</h3>
+        <h3 id="plan-pro" translate="no">소노&nbsp;버즈&nbsp;프로</h3>
         <p class="plan__price">₩289,000</p>
         <p class="plan__monthly">월 ₩24,083 (12개월 무이자)</p>
         <ul>
@@ -295,14 +297,14 @@ footer p + p { margin-top: 6px; }
 
   <section class="section closing" aria-labelledby="closing-title">
     <h2 class="section__title" id="closing-title">오늘 주문하면 내일 도착합니다.</h2>
-    <p class="section__intro">소노 버즈는 ₩199,000부터 시작합니다.</p>
+    <p class="section__intro"><span class="brand" translate="no">소노&nbsp;버즈</span>는 ₩199,000부터 시작합니다.</p>
     <a class="btn" href="#pricing">구입하기</a>
     <p class="closing__fine">30일 이내 무료 반품 · 1년 무상 보증</p>
   </section>
 </main>
 
 <footer>
-  <p>가격은 부가세 포함 기준입니다. 노이즈 캔슬링, 재생 시간, 무게 수치는 소노 버즈 프로 기준 예시이며 사용 환경에 따라 달라질 수 있습니다.</p>
+  <p>가격은 부가세 포함 기준입니다. 노이즈 캔슬링, 재생 시간, 무게 수치는 <span class="brand" translate="no">소노&nbsp;버즈&nbsp;프로</span> 기준 예시이며 사용 환경에 따라 달라질 수 있습니다.</p>
   <p>Copyright © 2026 <span translate="no">Sono</span>. All rights reserved.</p>
 </footer>
 </body>
