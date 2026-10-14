@@ -1,0 +1,4 @@
+:root{--blue:#0066cc;--focus:#0071e3;--ink:#1d1d1f;--muted:#6e6e73;--hair:#e0e0e0;--parch:#f5f5f7;
+--d:"SF Pro Display",-apple-system,"Inter",sans-serif;--t:"SF Pro Text",-apple-system,"Inter",sans-serif}
+*{box-sizing:border-box;margin:0}body{font:400 17px/1.47 var(--t);letter-spacing:-.374px;color:var(--ink);background:#fff;word-break:keep-all}
+img{display:block;max-width:100%}
